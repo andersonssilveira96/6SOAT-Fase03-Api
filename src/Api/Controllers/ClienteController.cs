@@ -1,6 +1,5 @@
-﻿using Application.UseCase;
-using Domain.Entities;
-using Domain.ValueObjects;
+﻿using Application.DTOs.Clientes;
+using Application.UseCase.Clientes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -18,30 +17,29 @@ namespace Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Obter(string cpf)
         {
-            var validaCpf = new CPF(cpf);
-
-            if (validaCpf.EhValido())
-            {
+            try
+            {               
                 var cliente = await _clienteUseCase.Obter(cpf);
-                return Ok(cliente);
+                return Ok(cliente);               
             }
-            return BadRequest("CPF Inválido");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
 
         }
 
         [HttpPost]
-        public async Task<IActionResult> Cadastrar(Cliente cliente)
+        public async Task<IActionResult> Cadastrar(CadastrarClienteDto cadastrarClienteDto)
         {
-            string cpf = cliente.Cpf.Numero;
-            var validaCpf = new CPF(cpf);
-
-            if (validaCpf.EhValido())
+            try
             {
-                await _clienteUseCase.Cadastrar(cliente);
-                return Ok();
+                return Ok(await _clienteUseCase.Cadastrar(cadastrarClienteDto));
             }
-
-            return BadRequest("CPF Inválido");
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

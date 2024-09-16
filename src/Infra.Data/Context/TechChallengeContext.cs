@@ -17,6 +17,7 @@ namespace Infra.Data.Context
         public DbSet<Pedido> Pedido { get; set; }
         public DbSet<PedidoProduto> PedidoProduto { get; set; }
         public DbSet<Produto> Produto { get; set; }
+        public DbSet<Pagamento> Pagamento { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

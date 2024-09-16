@@ -69,13 +69,41 @@ namespace Infra.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Nome")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Cliente");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Pagamento", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<long>("Id"));
+
+                    b.Property<Guid>("NumeroPagamento")
+                        .HasColumnType("uuid");
+
+                    b.Property<long>("PedidoId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("QRCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("Pagamento");
                 });
 
             modelBuilder.Entity("Domain.Entities.Pedido", b =>
@@ -198,6 +226,17 @@ namespace Infra.Data.Migrations
 
                     b.Navigation("Email")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.Entities.Pagamento", b =>
+                {
+                    b.HasOne("Domain.Entities.Pedido", "Pedido")
+                        .WithMany()
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("Domain.Entities.Pedido", b =>

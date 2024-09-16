@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Domain.Entities;
+﻿using Application.DTOs.Produtos;
 
 namespace Application.UseCase.Produtos
 {
     public interface IProdutosUseCase
     {
-        Task<Produto> Obter(long id);
-        Task<List<Produto>> Listar();
-        Task<List<Produto>> ListarPorCategoria(long idCategoria);
-        Task<Produto> Cadastrar(Produto produto);
-        Task<Produto> Atualizar(Produto produto);
+        Task<ProdutoDto> Obter(long id);
+        Task<List<ProdutoDto>> Listar();
+        Task<List<ProdutoDto>> ListarPorCategoria(long idCategoria);
+        Task<ProdutoDto> Cadastrar(CadastrarProdutoDto produto);
+        Task<ProdutoDto> Atualizar(AtualizarProdutoDto produto, long id);
         Task Excluir(long id);
     }
 }

@@ -1,8 +1,5 @@
-﻿using Application.DTOs;
-using Application.UseCase;
-using Domain.Entities;
-using Domain.Enums;
-using Microsoft.AspNetCore.Http;
+﻿using Application.DTOs.Pedido;
+using Application.UseCase.Pedidos;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
@@ -31,19 +28,19 @@ namespace Api.Controllers
             }
         }
 
-        [HttpPut]
-        [Route("fake-checkout/{id}")]
-        public async Task<IActionResult> EnviarParaPagamento(long id)
+        [HttpGet]
+        [Route("consultar-status-pagamento/{pedidoId}")]
+        public async Task<IActionResult> AtualizarStatus(long pedidoId)
         {
             try
             {
-                return Ok(await _pedidoUseCase.EnviarPagamento(id));
+                return Ok(await _pedidoUseCase.ConsultarStatusPagamento(pedidoId));
             }
             catch (Exception ex)
             {
                 return BadRequest(new { Mensagem = ex.Message });
             }
-        }
+        }        
 
         [HttpPut]
         [Route("atualizar-status/{id}/{status}")]
@@ -51,7 +48,7 @@ namespace Api.Controllers
         {
             try
             {
-                return Ok(await _pedidoUseCase.AtualizarStatus(id, (StatusEnum)status));
+                return Ok(await _pedidoUseCase.AtualizarStatus(id, status));
             }
             catch (Exception ex)
             {
