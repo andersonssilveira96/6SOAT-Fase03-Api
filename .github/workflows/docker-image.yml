@@ -1,0 +1,26 @@
+name: Deploy API
+
+on:
+  push:
+    branches:
+      - master
+      - dev
+
+jobs:
+   docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: docker login
+        env:
+          DOCKER_USER: ${{secrets.DOCKER_USER}}
+          DOCKER_PAT: ${{secrets.DOCKER_PAT}}
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+      - name: Build and Push API Image
+        working-directory: .
+        run: |
+          TAG=$(date +%Y%m%d%H%M%S)
+          docker build -t ${{secrets.DOCKER_USER}}/techchallenge:latest -t ${{secrets.DOCKER_PAT}}/techchallenge:$TAG . --no-cache
+          docker push ${{secrets.DOCKER_USERNAME}}/techchallenge:$TAG
+          docker push ${{secrets.DOCKER_USERNAME}}/techchallenge:latest          
