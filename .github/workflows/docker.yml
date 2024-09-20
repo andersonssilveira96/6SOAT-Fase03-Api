@@ -16,7 +16,7 @@ jobs:
           DOCKER_USER: ${{secrets.DOCKER_USER}}
           DOCKER_PAT: ${{secrets.DOCKER_PAT}}
         run: |
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+          docker login -u $DOCKER_USER -p $DOCKER_PAT 
       - name: Build and Push API Image
         working-directory: .
         run: |
