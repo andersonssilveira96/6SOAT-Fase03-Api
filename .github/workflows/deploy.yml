@@ -25,17 +25,11 @@ jobs:
           docker push ${{secrets.DOCKER_USER}}/techchallenge:$TAG
           docker push ${{secrets.DOCKER_USER}}/techchallenge:latest    
           
-   deploy-aws:    
-   
-     needs: docker-build
-  
-     if: github.ref == 'refs/heads/release' || github.ref == 'refs/heads/main'
-     
+   deploy-aws:      
+     needs: docker-build      
      environment:
-        name: prod  
-        
-     runs-on: ubuntu-latest
-     
+        name: prod        
+     runs-on: ubuntu-latest     
      steps:
       - name: Enviar evento repository_dispatch para repositório do k8s
         uses: actions/github-script@v6
