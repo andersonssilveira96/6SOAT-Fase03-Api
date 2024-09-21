@@ -26,19 +26,17 @@ jobs:
           docker push ${{secrets.DOCKER_USER}}/techchallenge:latest    
           
    deploy-aws:      
-     needs: docker-build      
-     environment:
-        name: prod        
+     needs: docker-build             
      runs-on: ubuntu-latest     
      steps:
-      - name: Enviar evento repository_dispatch para repositório do k8s
-        uses: actions/github-script@v6
-        with:
-          script: |
-            github.rest.repos.createDispatchEvent({
-              owner: 'andersonssilveira96',
-              repo: '6SOAT-Fase03-k8s',
-              event_type: 'deployment'
-            })
+      - name: Deploy EKS
         env:
-          GTH_TOKEN: ${{ secrets.GTH_TOKEN }}
+          TOKEN: ${{ secrets.GITHUB_TOKEN  }}
+        run: |
+          curl -L \
+          -X POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "Authorization: token $TOKEN" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          https://api.github.com/repos/andersonssilveira96/6SOAT-Fase03-k8s/actions/workflows/k8s.yml/dispatches \
+          -d '{"ref":"main"}'
