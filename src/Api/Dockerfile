@@ -1,10 +1,12 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
 USER app
 WORKDIR /app
+
 EXPOSE 8080
 EXPOSE 8081
 ENV ASPNETCORE_HTTP_PORTS 8080
 ENV ASPNETCORE_HTTPS_PORTS 8081
+
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 RUN apk add --upgrade --no-cache ca-certificates && update-ca-certificates
 ARG BUILD_CONFIGURATION=Release
@@ -18,7 +20,7 @@ RUN dotnet restore src/Api
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet dev-certs https
+RUN dotnet dev-certs https  --trust
 RUN dotnet publish "src/Api/Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
