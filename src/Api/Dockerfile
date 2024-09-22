@@ -3,7 +3,8 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-
+ENV ASPNETCORE_HTTP_PORTS 8080
+ENV ASPNETCORE_HTTPS_PORTS 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 RUN apk add --upgrade --no-cache ca-certificates && update-ca-certificates
 ARG BUILD_CONFIGURATION=Release
@@ -21,7 +22,6 @@ RUN dotnet publish "src/Api/Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 
 FROM base AS final
 WORKDIR /app
-ENV ASPNETCORE_HTTP_PORTS 8080
-ENV ASPNETCORE_HTTPS_PORTS 8081
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Api.dll"]
