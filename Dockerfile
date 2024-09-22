@@ -21,5 +21,8 @@ RUN dotnet publish "src/Api/Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 
 FROM base AS final
 WORKDIR /app
+ENV ASPNETCORE_URLS http://*:80
+ENV ASPNETCORE_URLS https://*:443
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Api.dll"]
