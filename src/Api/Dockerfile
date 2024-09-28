@@ -3,7 +3,6 @@ USER app
 WORKDIR /app
 EXPOSE 8080
 
-
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 RUN apk add --upgrade --no-cache ca-certificates && update-ca-certificates
 ARG BUILD_CONFIGURATION=Release
@@ -21,5 +20,6 @@ RUN dotnet publish "src/Api/Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish 
 
 FROM base AS final
 WORKDIR /app
+
 COPY --from=publish /app/publish .
 ENTRYPOINT ["dotnet", "Api.dll"]

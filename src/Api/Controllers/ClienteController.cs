@@ -1,11 +1,13 @@
 ﻿using Application.DTOs.Clientes;
 using Application.UseCase.Clientes;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ClienteController : ControllerBase
     {
         private readonly IClienteUseCase _clienteUseCase;
