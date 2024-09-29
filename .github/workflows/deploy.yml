@@ -1,10 +1,11 @@
 name: Deploy API
 
 on:
-  push:
+ pull_request:
+    types:
+      - closed
     branches:
-      - master
-      - dev
+      - master 
 
 jobs:
    docker-build:
