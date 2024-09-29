@@ -1,11 +1,14 @@
 ﻿using Application.DTOs.Pagamentos;
 using Application.UseCase.Pagamentos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
+
     public class PagamentoController : ControllerBase
     {
         private readonly IPagamentoUseCase _pagamentoUseCase;

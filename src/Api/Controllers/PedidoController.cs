@@ -1,11 +1,13 @@
 ﻿using Application.DTOs.Pedido;
 using Application.UseCase.Pedidos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class PedidoController : ControllerBase
     {
         private readonly IPedidoUseCase _pedidoUseCase;
