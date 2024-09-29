@@ -1,11 +1,13 @@
 ﻿using Application.DTOs.Produtos;
 using Application.UseCase.Produtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class ProdutoController : ControllerBase
     {
         private readonly IProdutosUseCase _produtosUseCase;
